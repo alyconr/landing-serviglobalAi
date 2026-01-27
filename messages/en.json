@@ -1,0 +1,213 @@
+{
+  "metadata": {
+    "title": "ServiGlobalAI - Voice AI & Omnichannel Agents",
+    "description": "We implement custom voice and omnichannel agents. We integrate WhatsApp, VoIP/Asterisk telephony, CRM and calendars."
+  },
+  "header": {
+    "cases": "Cases",
+    "howItWorks": "How it works",
+    "integrations": "Integrations",
+    "demo": "Demo",
+    "cta": "Book consultation"
+  },
+  "hero": {
+    "badge": "Voice AI Technology + Omnichannel",
+    "titlePart1": "Your best agent",
+    "titlePart2": "never sleeps.",
+    "titlePart3": "Available 24/7.",
+    "descriptionFull": "We implement custom voice and omnichannel agents. We integrate WhatsApp, telephony (VoIP/Asterisk), CRM and calendars.",
+    "descriptionShort": "Voice and omnichannel agents integrated with WhatsApp, CRM and calendars.",
+    "ctaPrimary": "Book Consultation",
+    "ctaSecondary": "Try Demo",
+    "integrationsLabel": "Native Integrations"
+  },
+  "useCases": {
+    "title": "Choose your use case",
+    "subtitle": "Our agents adapt to your business model. Select your industry to see how we can help.",
+    "automates": "Automates",
+    "typicalIntegrations": "Typical Integrations",
+    "scheduleFor": "Schedule diagnosis for",
+    "verticals": {
+      "atencion": {
+        "title": "Customer Service",
+        "promise": "Resolve queries 24/7 and reduce wait times.",
+        "tasks": ["Automate FAQs and order status", "Intelligent escalation to human", "Immediate availability"],
+        "integrations": ["WhatsApp, Web, CRM"]
+      },
+      "soporte": {
+        "title": "Technical Support",
+        "promise": "Reduce repetitive tickets and standardize your support.",
+        "tasks": ["Automatic incident triage", "Basic guided diagnosis", "Ticket creation in system"],
+        "integrations": ["Zendesk, Jira, VoIP"]
+      },
+      "cobranza": {
+        "title": "Collections",
+        "promise": "More payment promises, less operational friction.",
+        "tasks": ["Preventive payment reminders", "Simple agreement negotiation", "Identity validation"],
+        "integrations": ["Payment gateways, CRM, SMS/WhatsApp"]
+      },
+      "ventas": {
+        "title": "Sales & Leads",
+        "promise": "Filter prospects and schedule meetings with qualified leads.",
+        "tasks": ["Prospect qualification (BANT)", "Common objection handling", "Direct calendar scheduling"],
+        "integrations": ["Salesforce, HubSpot, Go High Level, Cal.com"]
+      },
+      "reclutamiento": {
+        "title": "Recruitment",
+        "promise": "Pre-filter candidates and schedule interviews automatically.",
+        "tasks": ["Initial requirements screening", "Interview coordination", "Job opening FAQs"],
+        "integrations": ["ATS, Calendar, Email"]
+      },
+      "reservas": {
+        "title": "Bookings",
+        "promise": "Your calendar fills itself, error-free.",
+        "tasks": ["Availability check", "Confirmation and reminders", "Automatic rescheduling"],
+        "integrations": ["Google Calendar, OpenTable, AirTable, Cal.com"]
+      },
+      "ecommerce": {
+        "title": "E-commerce",
+        "promise": "Convert more with automated support and sales.",
+        "tasks": ["Abandoned cart recovery", "Product recommendations", "Shipment tracking"],
+        "integrations": ["Shopify, WooCommerce"]
+      }
+    }
+  },
+  "benefits": {
+    "title": "How does an AI Agent benefit you?",
+    "subtitle": "Tangible results from the first month of implementation.",
+    "items": {
+      "sales": {
+        "title": "Increase Sales",
+        "desc": "We filter and qualify prospects so your team only handles leads ready to buy."
+      },
+      "service": {
+        "title": "24/7 Service",
+        "desc": "Constant availability in messaging and voice, with handoff to human when needed."
+      },
+      "errors": {
+        "title": "Reduce Errors",
+        "desc": "Consistent and auditable flows: fewer human errors in repetitive tasks."
+      },
+      "costs": {
+        "title": "Save Costs",
+        "desc": "Automate volume without hiring more staff for routine work."
+      },
+      "stack": {
+        "title": "Integrate Your Stack",
+        "desc": "Connect CRM, calendars, email, WhatsApp, telephony and internal tools."
+      },
+      "time": {
+        "title": "Record Time",
+        "desc": "Guided implementation with clear deliverables: diagnosis → pilot → production."
+      }
+    }
+  },
+  "process": {
+    "title": "We don't sell a platform.",
+    "subtitle": "We implement a system that fits.",
+    "description": "Our consultative approach ensures technology adapts to your operation, not the other way around.",
+    "cta": "Start with Phase 1 (Free)",
+    "phases": {
+      "phase1": {
+        "number": "1",
+        "title": "Pre-consultation",
+        "description": "We analyze your processes, volume and current channels.",
+        "deliverableLabel": "Deliverable:",
+        "deliverable": "Flow map + Technical proposal"
+      },
+      "phase2": {
+        "number": "2",
+        "title": "Implementation",
+        "description": "We develop the agent (Python/LangGraph) and integrate channels.",
+        "deliverableLabel": "Technology:",
+        "deliverable": "Custom backend + Integrations"
+      },
+      "phase3": {
+        "number": "3",
+        "title": "Production",
+        "description": "Deployment, monitoring and continuous optimization.",
+        "deliverableLabel": "Support:",
+        "deliverable": "Maintenance and improvements"
+      }
+    }
+  },
+  "integrations": {
+    "title": "We connect with what you",
+    "titleHighlight": "already use",
+    "description": "No need to change your infrastructure. Our agents integrate natively with your existing PBX, CRM and calendars.",
+    "description2": "From local infrastructures with Asterisk to modern cloud stacks.",
+    "categories": {
+      "channels": "Channels",
+      "agenda": "Calendar",
+      "crm": "CRM & Support",
+      "infrastructure": "Infrastructure"
+    }
+  },
+  "booking": {
+    "title": "Schedule your free diagnosis",
+    "description": "In 15-30 minutes we'll analyze your communication flows and deliver an initial implementation plan. No cost, no commitment.",
+    "cta": "Book Appointment Now"
+  },
+  "demo": {
+    "title": "Hear what your next agent sounds like.",
+    "subtitle": "Real incoming call simulation.",
+    "callNow": "Call Now",
+    "incomingCall": "Incoming Call",
+    "tapToAnswer": "Swipe to answer"
+  },
+  "voiceDemo": {
+    "title": "Try it right now",
+    "subtitle": "Choose an experience and discover how our agents interact in real time.",
+    "disclaimer": "(Interactive simulation without real audio for this web demo)",
+    "inboundTab": "Inbound (Web Call)",
+    "outboundTab": "Outbound (We call you)"
+  },
+  "demoInbound": {
+    "callEnded": "Call ended!",
+    "callEndedDesc": "Can you imagine this efficiency in your business? This was a simulation, but the impact is real.",
+    "scheduleConsultation": "Schedule Consultation",
+    "tryAgain": "Try again",
+    "simulatorVersion": "ServiGlobal Simulator v1.0",
+    "online": "Online",
+    "webCall": "Web Call (VoIP)",
+    "selectAgentDesc": "Select an agent and click call to experience the instant response.",
+    "agentType": "Agent Type",
+    "agentSales": "Sales Agent",
+    "agentSupport": "Support Agent",
+    "agentCollections": "Collections Agent",
+    "agentBookings": "Bookings Agent",
+    "callNow": "Call Now",
+    "connecting": "Connecting...",
+    "agent": "Agent",
+    "establishingConnection": "Establishing secure connection..."
+  },
+  "demoOutbound": {
+    "requestCompleted": "Request completed",
+    "requestCompletedDesc": "In a real implementation, your phone would be ringing right now. That's how fast we capture leads.",
+    "scheduleConsultation": "Schedule Consultation",
+    "back": "Back",
+    "weCallYou": "We call you",
+    "weCallYouDesc": "Leave your details and the agent will contact you instantly (Simulation).",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "phone": "Phone",
+    "phonePlaceholder": "+1 555...",
+    "wantCall": "I want to be called",
+    "submitDisclaimer": "By submitting, you agree to be contacted by the demo.",
+    "processingRequest": "Processing request...",
+    "simulatingCall": "Simulating Incoming Call...",
+    "agentDialing": "The agent is dialing your virtual number",
+    "hangUp": "Hang up / End Demo"
+  },
+  "footer": {
+    "tagline": "AI Agents that work while you rest.",
+    "product": "Product",
+    "services": "Services",
+    "contact": "Contact",
+    "copyright": "© 2026 ServiGlobalAI. All rights reserved."
+  },
+  "languageSwitcher": {
+    "es": "ES",
+    "en": "EN"
+  }
+}
