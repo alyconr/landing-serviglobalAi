@@ -3,6 +3,42 @@
     "title": "ServiGlobalAI - Voice AI & Omnichannel Agents",
     "description": "We implement custom voice and omnichannel agents. We integrate WhatsApp, VoIP/Asterisk telephony, CRM and calendars."
   },
+  "whyUs": {
+    "title": "Why you need us",
+    "subtitle": "Fixed pricing, transparent timelines, and production-ready code.",
+    "features": {
+      "clearHonest": {
+        "title": "Clear. Honest.",
+        "subtitle": "Built to last.",
+        "description": "Fixed pricing, transparent timelines, and production-ready code. No surprises."
+      },
+      "shipFast": {
+        "title": "Ship fast.",
+        "subtitle": "Ship real.",
+        "description": "6-10 weeks from kickoff to deployment. Not 6 months."
+      },
+      "builtByBuilders": {
+        "title": "Built by",
+        "subtitle": "Builders.",
+        "description": "A team of engineers, designers, and product makers who understand real pain points — because we've lived them."
+      },
+      "aiThatWorks": {
+        "title": "AI That Actually",
+        "subtitle": "Works.",
+        "description": "Not another ChatGPT wrapper. Real automation that solves real problems."
+      },
+      "youOwnEverything": {
+        "title": "You Own",
+        "subtitle": "Everything.",
+        "description": "Full code ownership. Complete documentation. Zero vendor lock-in."
+      },
+      "supportPartner": {
+        "title": "Ongoing",
+        "subtitle": "Partnership.",
+        "description": "We don't disappear after launch. Continuous support, optimization, and scaling as you grow."
+      }
+    }
+  },
   "header": {
     "cases": "Cases",
     "howItWorks": "How it works",
@@ -200,6 +236,10 @@
     "simulatingCall": "Request Received",
     "agentDialing": "Your request has been assigned to a sales advisor.",
     "hangUp": "End"
+  },
+  "floatingCta": {
+    "scheduleButton": "Schedule Now",
+    "demoButton": "Try Demo"
   },
   "footer": {
     "tagline": "AI Agents that work while you rest.",

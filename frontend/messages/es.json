@@ -3,6 +3,42 @@
     "title": "ServiGlobalAI - Agentes de Voz e IA Omnicanal",
     "description": "Implementamos agentes de voz y omnicanal a medida. Integramos WhatsApp, telefonía VoIP/Asterisk, CRM y calendarios."
   },
+  "whyUs": {
+    "title": "Por qué nos necesitas",
+    "subtitle": "Precios fijos, tiempos transparentes, y código listo para producción.",
+    "features": {
+      "clearHonest": {
+        "title": "Claros. Honestos.",
+        "subtitle": "Construido para durar.",
+        "description": "Precios fijos, tiempos transparentes, y código listo para producción. Sin sorpresas."
+      },
+      "shipFast": {
+        "title": "Entrega rápida.",
+        "subtitle": "Entrega real.",
+        "description": "6-10 semanas desde el inicio hasta el despliegue. No 6 meses."
+      },
+      "builtByBuilders": {
+        "title": "Construido por",
+        "subtitle": "Constructores.",
+        "description": "Un equipo de ingenieros, diseñadores y creadores de producto que entienden los problemas reales — porque los hemos vivido."
+      },
+      "aiThatWorks": {
+        "title": "IA que realmente",
+        "subtitle": "Funciona.",
+        "description": "No es otro wrapper de ChatGPT. Automatización real que resuelve problemas reales."
+      },
+      "youOwnEverything": {
+        "title": "Tú eres dueño de",
+        "subtitle": "Todo.",
+        "description": "Propiedad total del código. Documentación completa. Cero dependencia del proveedor."
+      },
+      "supportPartner": {
+        "title": "Acompañamiento",
+        "subtitle": "Continuo.",
+        "description": "No desaparecemos después del lanzamiento. Soporte continuo, optimización y escalamiento a medida que creces."
+      }
+    }
+  },
   "header": {
     "cases": "Casos",
     "howItWorks": "Cómo funciona",
@@ -200,6 +236,10 @@
     "simulatingCall": "Solicitud Recibida",
     "agentDialing": "Tu solicitud ha sido asignada a un asesor de ventas.",
     "hangUp": "Finalizar"
+  },
+  "floatingCta": {
+    "scheduleButton": "Agendar Ahora",
+    "demoButton": "Probar Demo"
   },
   "footer": {
     "tagline": "Agentes de IA que trabajan mientras tú descansas.",
