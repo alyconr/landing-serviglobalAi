@@ -189,7 +189,7 @@ const Scene = () => {
 
 export const HeroFuturistic = () => {
   return (
-    <div className="w-full h-full min-h-[400px] relative flex items-center justify-center">
+    <div className="w-full h-full min-h-[500px] relative flex items-center justify-center">
       <Canvas
         camera={{ position: [0, 0, 2], fov: 50 }}
         style={{ background: 'transparent' }}
