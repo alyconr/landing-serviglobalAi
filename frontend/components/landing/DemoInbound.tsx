@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAudioSimulation } from '@/hooks/useAudioSimulation';
+import { useUltravox } from '@/hooks/useUltravox';
 import { Phone, Mic, PhoneOff, User, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -12,9 +12,14 @@ const AGENT_TYPES = ['sales', 'support', 'collections', 'bookings'] as const;
 
 export function DemoInbound() {
   const t = useTranslations('demoInbound');
-  const { demoState, volumeLevels, duration, startCall, endCall, resetDemo } = useAudioSimulation();
+  // Use the new Ultravox hook instead of the simulation
+  const { demoState, volumeLevels, startCall, endCall, resetDemo } = useUltravox();
   // We now force a single "Sales Team" context
   const selectedAgent = 'sales';
+  
+  // Format duration logic or remove it if SDK doesn't natively provide duration nicely yet
+  // For now let's keep it simple or mock it since hook doesn't export it yet
+  const duration = "00:00"; 
 
   if (demoState === 'ended') {
     return (
@@ -46,8 +51,8 @@ export function DemoInbound() {
       <div className="absolute top-4 left-0 right-0 py-2 px-4 flex justify-between items-center text-xs text-zinc-500 dark:text-white/30 z-10">
         <span>{t('simulatorVersion')}</span>
         <div className="flex gap-1">
-           <div className="size-2 rounded-full bg-green-500/50"></div>
-           <span>{t('online')}</span>
+           <div className={cn("size-2 rounded-full", demoState === 'connected' ? "bg-green-500" : "bg-zinc-500")}></div>
+           <span>{demoState === 'connected' ? t('online') : 'Offline'}</span>
         </div>
       </div>
 
@@ -104,7 +109,7 @@ export function DemoInbound() {
             {/* Visualizer */}
             <div className="h-16 flex items-center gap-1 mb-12">
                {demoState === 'connected' ? (
-                 volumeLevels.map((level, i) => (
+                 volumeLevels.map((level: number, i: number) => (
                     <motion.div
                       key={i}
                       initial={{ height: 10 }}
