@@ -14,12 +14,28 @@ export function DemoInbound() {
   const t = useTranslations('demoInbound');
   // Use the new Ultravox hook instead of the simulation
   const { demoState, volumeLevels, startCall, endCall, resetDemo } = useUltravox();
-  // We now force a single "Sales Team" context
-  const selectedAgent = 'sales';
-  
-  // Format duration logic or remove it if SDK doesn't natively provide duration nicely yet
-  // For now let's keep it simple or mock it since hook doesn't export it yet
-  const duration = "00:00"; 
+  // Timer logic
+  const [duration, setDuration] = React.useState(0);
+
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (demoState === 'connected') {
+      interval = setInterval(() => {
+        setDuration(prev => prev + 1);
+      }, 1000);
+    } else {
+      setDuration(0);
+    }
+
+    return () => clearInterval(interval);
+  }, [demoState]);
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   if (demoState === 'ended') {
     return (
@@ -104,7 +120,7 @@ export function DemoInbound() {
             <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">
               {demoState === 'connecting' ? t('connecting') : `${t('agent')} ${t('agentSales')}`}
             </h3>
-            <p className="text-zinc-500 dark:text-zinc-400 mb-8 font-mono">{duration}</p>
+            <p className="text-zinc-500 dark:text-zinc-400 mb-8 font-mono">{formatDuration(duration)}</p>
 
             {/* Visualizer */}
             <div className="h-16 flex items-center gap-1 mb-12">
