@@ -64,6 +64,10 @@ export function DemoOutbound() {
                   <input required type="text" placeholder={t('namePlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
                </div>
                <div>
+                  <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('email')}</label>
+                  <input required type="email" placeholder={t('emailPlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+               </div>
+               <div>
                   <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('phone')}</label>
                   <input required type="tel" placeholder={t('phonePlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
                </div>
