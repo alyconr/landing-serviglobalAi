@@ -97,11 +97,11 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="mt-8 md:mt-16 pt-6 md:pt-8 border-t border-black/5 dark:border-white/5 w-full max-w-md overflow-hidden"
+            className="mt-8 md:mt-16 pt-6 md:pt-8 border-t border-black/5 dark:border-white/5 w-full max-w-xl overflow-hidden"
           >
-             <p className="text-xs text-zinc-500 dark:text-neutral-500 mb-4 uppercase tracking-widest font-semibold">{t('integrationsLabel')}</p>
+             <p className="text-sm text-zinc-500 dark:text-neutral-500 mb-4 uppercase tracking-widest font-semibold">{t('integrationsLabel')}</p>
              <div className="relative">
-               <div className="flex animate-marquee gap-x-8 opacity-60 text-sm text-zinc-400 dark:text-neutral-300 font-mono whitespace-nowrap">
+               <div className="flex animate-marquee gap-x-10 opacity-70 text-base text-zinc-500 dark:text-neutral-300 font-mono whitespace-nowrap">
                    <span>Asterisk</span>
                    <span>WhatsApp</span>
                    <span>HubSpot</span>
