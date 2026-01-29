@@ -19,12 +19,17 @@ app.add_middleware(
 class CreateCallRequest(BaseModel):
     agent_id: str | None = None
     system_prompt: str | None = None
+    template_context: dict | None = None
 
 
 @app.post("/api/v1/calls")
 async def create_call(request: CreateCallRequest):
     try:
-        join_url = await create_call_session(request.system_prompt)
+        join_url = await create_call_session(
+            agent_id=request.agent_id,
+            system_prompt=request.system_prompt,
+            template_context=request.template_context,
+        )
         return {"joinUrl": join_url}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
