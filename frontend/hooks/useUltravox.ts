@@ -67,17 +67,32 @@ export function useUltravox() {
     if (!sessionRef.current) return;
     
     // TODO: url de fast api
-    const joinUrl = ''; // Replace with actual API call to get joinUrl
-
-    if (!joinUrl) {
-      console.warn('No Join URL provided. Simulation mode or error.');
-      // For now we simulate connection just to see UI transitions if no URL
-      setDemoState('connecting');
-      setTimeout(() => setDemoState('connected'), 1500);
-      return;
-    }
+    let joinUrl = ''; // Initialize joinUrl as mutable
 
     try {
+      // Fetch the Join URL from our backend
+      const response = await fetch('http://localhost:8000/api/v1/calls', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // No context needed, conversation flows naturally based on Agent configuration
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get join URL');
+      }
+
+      const data = await response.json();
+      joinUrl = data.joinUrl; // Assign to the mutable joinUrl
+
+      if (!joinUrl) {
+          throw new Error('Received empty joinUrl from backend');
+      }
+
+      // Join the call
       await sessionRef.current.joinCall(joinUrl);
     } catch (error) {
       console.error('Failed to join call:', error);
