@@ -13,14 +13,8 @@ const AGENT_TYPES = ['sales', 'support', 'collections', 'bookings'] as const;
 export function DemoInbound() {
   const t = useTranslations('demoInbound');
   const { demoState, volumeLevels, duration, startCall, endCall, resetDemo } = useAudioSimulation();
-  const [selectedAgent, setSelectedAgent] = React.useState<typeof AGENT_TYPES[number]>('sales');
-
-  const agentLabels: Record<typeof AGENT_TYPES[number], string> = {
-    sales: t('agentSales'),
-    support: t('agentSupport'),
-    collections: t('agentCollections'),
-    bookings: t('agentBookings'),
-  };
+  // We now force a single "Sales Team" context
+  const selectedAgent = 'sales';
 
   if (demoState === 'ended') {
     return (
@@ -72,17 +66,6 @@ export function DemoInbound() {
             </div>
 
             <div className="space-y-4">
-              <label className="block text-sm font-medium text-zinc-600 dark:text-zinc-400">{t('agentType')}</label>
-              <select 
-                value={selectedAgent}
-                onChange={(e) => setSelectedAgent(e.target.value as typeof AGENT_TYPES[number])}
-                className="w-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-colors"
-              >
-                {AGENT_TYPES.map((type) => (
-                  <option key={type} value={type}>{agentLabels[type]}</option>
-                ))}
-              </select>
-
               <button
                 onClick={startCall}
                 className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-[0.98] shadow-xl shadow-black/5 dark:shadow-white/5 flex items-center justify-center gap-2"
@@ -90,6 +73,9 @@ export function DemoInbound() {
                 <Phone className="size-5" />
                 {t('callNow')}
               </button>
+               <p className="text-[10px] text-zinc-400 text-center">
+                  * Powered by ServiGlobal AI Voice Engine
+               </p>
             </div>
           </div>
         )}
@@ -111,7 +97,7 @@ export function DemoInbound() {
             </div>
 
             <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">
-              {demoState === 'connecting' ? t('connecting') : `${t('agent')} ${agentLabels[selectedAgent]}`}
+              {demoState === 'connecting' ? t('connecting') : `${t('agent')} ${t('agentSales')}`}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-400 mb-8 font-mono">{duration}</p>
 
