@@ -41,10 +41,10 @@ export function Header() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b',
         isScrolled
           ? 'bg-white/80 dark:bg-black/80 backdrop-blur-md border-zinc-200/50 dark:border-white/10 py-3 shadow-sm dark:shadow-none'
-          : 'bg-transparent py-5'
+          : 'bg-white/90 dark:bg-black/90 backdrop-blur-md border-zinc-200/30 dark:border-white/5 py-5'
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
@@ -52,10 +52,7 @@ export function Header() {
           <div className="size-8 rounded-full bg-gradient-to-tr from-blue-500 to-violet-500 flex items-center justify-center overflow-hidden">
             <Globe className="size-4 text-white animate-spin-slow" />
           </div>
-          <span className={cn(
-             "text-lg font-bold tracking-tight transition-colors group-hover:text-violet-600 dark:group-hover:text-violet-300",
-             isScrolled ? "text-zinc-900 dark:text-white" : "text-white dark:text-white"
-          )}>
+          <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white transition-colors group-hover:text-violet-600 dark:group-hover:text-violet-300">
             ServiGlobal<span className="text-violet-600 dark:text-violet-500">AI</span>
           </span>
         </Link>
@@ -66,12 +63,7 @@ export function Header() {
             <Link
               key={link.name}
               href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors",
-                isScrolled 
-                   ? "text-zinc-600 dark:text-white/70 hover:text-zinc-900 dark:hover:text-white"
-                   : "text-white/80 hover:text-white"
-              )}
+              className="text-sm font-medium text-zinc-600 dark:text-white/70 hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
               {link.name}
             </Link>
@@ -83,21 +75,14 @@ export function Header() {
           <ThemeToggle />
           
           {/* Language Switcher */}
-          <div className={cn(
-             "flex items-center gap-1 rounded-full p-1 border transition-colors",
-             isScrolled 
-                ? "bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/5"
-                : "bg-white/10 dark:bg-white/5 border-white/10 dark:border-white/5 backdrop-blur-md"
-          )}>
+          <div className="flex items-center gap-1 rounded-full p-1 border bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/5">
             <button
               onClick={() => switchLocale('es')}
               className={cn(
                 "px-3 py-1 rounded-full text-xs font-semibold transition-all",
                 locale === 'es' 
                   ? "bg-violet-600 text-white" 
-                  : isScrolled
-                        ? "text-zinc-600 dark:text-white/60 hover:text-black dark:hover:text-white"
-                        : "text-white/70 hover:text-white"
+                  : "text-zinc-600 dark:text-white/60 hover:text-black dark:hover:text-white"
               )}
             >
               ES
@@ -108,9 +93,7 @@ export function Header() {
                 "px-3 py-1 rounded-full text-xs font-semibold transition-all",
                 locale === 'en' 
                   ? "bg-violet-600 text-white" 
-                  : isScrolled
-                        ? "text-zinc-600 dark:text-white/60 hover:text-black dark:hover:text-white"
-                        : "text-white/70 hover:text-white"
+                  : "text-zinc-600 dark:text-white/60 hover:text-black dark:hover:text-white"
               )}
             >
               EN
@@ -119,12 +102,7 @@ export function Header() {
           
           <Link
             href="#agendar"
-            className={cn(
-               "px-5 py-2 rounded-full font-semibold text-sm transition-colors shadow-lg",
-               isScrolled
-                 ? "bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200"
-                 : "bg-white text-black hover:bg-zinc-100"
-            )}
+            className="px-5 py-2 rounded-full font-semibold text-sm bg-black text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors shadow-lg"
           >
             {t('cta')}
           </Link>
@@ -135,21 +113,14 @@ export function Header() {
           <ThemeToggle />
 
           {/* Mobile Language Switcher */}
-          <div className={cn(
-             "flex items-center gap-1 rounded-full p-1 border transition-colors",
-             isScrolled 
-                ? "bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/5"
-                : "bg-white/10 dark:bg-white/5 border-white/10 dark:border-white/5 backdrop-blur-md"
-          )}>
+          <div className="flex items-center gap-1 rounded-full p-1 border bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/5">
             <button
               onClick={() => switchLocale('es')}
               className={cn(
                 "px-2 py-1 rounded-full text-xs font-semibold transition-all",
                 locale === 'es' 
                   ? "bg-violet-600 text-white" 
-                  : isScrolled
-                        ? "text-zinc-600 dark:text-white/60"
-                        : "text-white/70"
+                  : "text-zinc-600 dark:text-white/60"
               )}
             >
               ES
@@ -160,9 +131,7 @@ export function Header() {
                 "px-2 py-1 rounded-full text-xs font-semibold transition-all",
                 locale === 'en' 
                   ? "bg-violet-600 text-white" 
-                  : isScrolled
-                        ? "text-zinc-600 dark:text-white/60"
-                        : "text-white/70"
+                  : "text-zinc-600 dark:text-white/60"
               )}
             >
               EN
@@ -170,10 +139,7 @@ export function Header() {
           </div>
           
           <button
-            className={cn(
-               "p-1 transition-colors",
-               isScrolled ? "text-zinc-900 dark:text-white" : "text-white"
-            )}
+            className="p-1 text-zinc-900 dark:text-white transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
