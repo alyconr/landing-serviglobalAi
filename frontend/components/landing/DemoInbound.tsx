@@ -10,12 +10,38 @@ import { useTranslations } from 'next-intl';
 
 const AGENT_TYPES = ['sales', 'support', 'collections', 'bookings'] as const;
 
+const COUNTRY_CODES = [
+  { code: '+1', flag: '🇺🇸', name: 'USA' },
+  { code: '+57', flag: '🇨🇴', name: 'COL' },
+  { code: '+52', flag: '🇲🇽', name: 'MEX' },
+  { code: '+34', flag: '🇪🇸', name: 'ESP' },
+  { code: '+54', flag: '🇦🇷', name: 'ARG' },
+  { code: '+56', flag: '🇨🇱', name: 'CHL' },
+  { code: '+51', flag: '🇵🇪', name: 'PER' },
+];
+
 export function DemoInbound() {
   const t = useTranslations('demoInbound');
   // Use the new Ultravox hook instead of the simulation
   const { demoState, volumeLevels, startCall, endCall, resetDemo } = useUltravox();
   // Timer logic
   const [duration, setDuration] = React.useState(0);
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    phone: '',
+    countryCode: '+57'
+  });
+
+  const handleStartCall = () => {
+    if (!formData.name || !formData.email || !formData.phone) return;
+    
+    startCall({
+      user_name: formData.name,
+      user_email: formData.email,
+      user_phone: `${formData.countryCode}${formData.phone}`
+    });
+  };
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -77,19 +103,54 @@ export function DemoInbound() {
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-violet-500/5 pointer-events-none" />
 
         {demoState === 'idle' && (
-          <div className="w-full max-w-sm flex flex-col gap-6 z-10">
+          <div className="w-full max-w-sm flex flex-col gap-6 z-10 px-4">
             <div className="text-center space-y-2">
-              <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 rounded-full mx-auto flex items-center justify-center border border-zinc-200 dark:border-white/10 mb-4 shadow-[0_0_30px_-5px_var(--color-violet-500)] shadow-violet-500/20">
-                <Phone className="size-8 text-zinc-900 dark:text-white" />
-              </div>
               <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">{t('webCall')}</h3>
               <p className="text-sm text-zinc-500">{t('selectAgentDesc')}</p>
             </div>
 
             <div className="space-y-4">
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  placeholder="Nombre completo"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
+                />
+                <input
+                  type="email"
+                  placeholder="Correo electrónico"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
+                />
+                <div className="flex gap-2">
+                  <select
+                    value={formData.countryCode}
+                    onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                    className="w-24 px-2 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
+                  >
+                    {COUNTRY_CODES.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.flag} {country.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    placeholder="Teléfono"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="flex-1 px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
+                  />
+                </div>
+              </div>
+
               <button
-                onClick={startCall}
-                className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-[0.98] shadow-xl shadow-black/5 dark:shadow-white/5 flex items-center justify-center gap-2"
+                onClick={handleStartCall}
+                disabled={!formData.name || !formData.email || !formData.phone}
+                className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-[0.98] shadow-xl shadow-black/5 dark:shadow-white/5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Phone className="size-5" />
                 {t('callNow')}
