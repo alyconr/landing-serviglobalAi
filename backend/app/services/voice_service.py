@@ -24,21 +24,17 @@ async def create_call_session(
 
     payload = {}
 
-    if final_agent_id:
-        # Correct Endpoint for Agents: 
-        url = f"https://api.ultravox.ai/api/agents/{final_agent_id}/calls"
+    if not final_agent_id:
+        raise ValueError(
+            "Agent ID is required. Please set DEFAULT_AGENT_ID in your .env file or pass it directly."
+        )
 
-        # Add template context if provided
-        if template_context:
-            payload["templateContext"] = template_context
-    else:
-        # Legacy/Raw Endpoint: /api/calls
-        url = "https://api.ultravox.ai/api/calls"
-        payload["model"] = settings.ULTRAVOX_MODEL
-        payload["temperature"] = 0.5
-        payload["medium"] = {"serverWebSocket": {"inputSampleRate": 48000}}
-        if system_prompt:
-            payload["systemPrompt"] = system_prompt
+    # Correct Endpoint for Agents:
+    url = f"https://api.ultravox.ai/api/agents/{final_agent_id}/calls"
+
+    # Add template context if provided
+    if template_context:
+        payload["templateContext"] = template_context
 
     try:
         async with httpx.AsyncClient() as client:
