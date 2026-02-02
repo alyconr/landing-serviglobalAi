@@ -63,7 +63,7 @@ export function useUltravox() {
     return () => clearInterval(interval);
   }, [isSpeaking]);
 
-  const startCall = useCallback(async () => {
+  const startCall = useCallback(async (context?: Record<string, any>) => {
     if (!sessionRef.current) return;
     
     // TODO: url de fast api
@@ -77,7 +77,7 @@ export function useUltravox() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            // No context needed, conversation flows naturally based on Agent configuration
+            template_context: context || {}
         }),
       });
 
