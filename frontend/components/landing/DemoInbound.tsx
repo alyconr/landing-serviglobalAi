@@ -1,23 +1,22 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useUltravox } from '@/hooks/useUltravox';
-import { Phone, Mic, PhoneOff, User, Loader2 } from 'lucide-react';
+import { Phone, Mic, PhoneOff, User, Loader2, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-const AGENT_TYPES = ['sales', 'support', 'collections', 'bookings'] as const;
-
 const COUNTRY_CODES = [
-  { code: '+1', flag: '🇺🇸', name: 'USA' },
-  { code: '+57', flag: '🇨🇴', name: 'COL' },
-  { code: '+52', flag: '🇲🇽', name: 'MEX' },
-  { code: '+34', flag: '🇪🇸', name: 'ESP' },
-  { code: '+54', flag: '🇦🇷', name: 'ARG' },
-  { code: '+56', flag: '🇨🇱', name: 'CHL' },
-  { code: '+51', flag: '🇵🇪', name: 'PER' },
+  { code: '+1', flag: '/flags/us.svg', name: 'USA' },
+  { code: '+57', flag: '/flags/co.svg', name: 'COL' },
+  { code: '+52', flag: '/flags/mx.svg', name: 'MEX' },
+  { code: '+34', flag: '/flags/es.svg', name: 'ESP' },
+  { code: '+54', flag: '/flags/ar.svg', name: 'ARG' },
+  { code: '+56', flag: '/flags/cl.svg', name: 'CHL' },
+  { code: '+51', flag: '/flags/pe.svg', name: 'PER' },
 ];
 
 export function DemoInbound() {
@@ -32,6 +31,20 @@ export function DemoInbound() {
     phone: '',
     countryCode: '+57'
   });
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleStartCall = () => {
     if (!formData.name || !formData.email || !formData.phone) return;
@@ -125,24 +138,67 @@ export function DemoInbound() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
                 />
-                <div className="flex gap-2">
-                  <select
-                    value={formData.countryCode}
-                    onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-                    className="w-24 px-2 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
-                  >
-                    {COUNTRY_CODES.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.flag} {country.code}
-                      </option>
-                    ))}
-                  </select>
+                <div className="flex gap-2 relative">
+                  {/* Custom Country Dropdown */}
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="h-[46px] px-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm flex items-center gap-2 min-w-[80px]"
+                    >
+                      {(() => {
+                        const selected = COUNTRY_CODES.find(c => c.code === formData.countryCode) || COUNTRY_CODES[0];
+                        return (
+                          <>
+                            <div className="relative w-6 h-4 overflow-hidden rounded-sm shadow-sm shrink-0">
+                                <Image 
+                                    src={selected.flag} 
+                                    alt={selected.name} 
+                                    fill 
+                                    className="object-cover"
+                                />
+                            </div>
+                            <span>{selected.code}</span>
+                            <ChevronDown className="size-3 opacity-50 ml-auto" />
+                          </>
+                        );
+                      })()}
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-48 max-h-60 overflow-y-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 py-1">
+                        {COUNTRY_CODES.map((country) => (
+                          <button
+                            key={country.code}
+                            type="button"
+                            onClick={() => {
+                              setFormData({ ...formData, countryCode: country.code });
+                              setIsDropdownOpen(false);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-3"
+                          >
+                             <div className="relative w-6 h-4 overflow-hidden rounded-sm shadow-sm shrink-0">
+                                <Image 
+                                    src={country.flag} 
+                                    alt={country.name} 
+                                    fill 
+                                    className="object-cover"
+                                />
+                            </div>
+                            <span className="font-medium">{country.code}</span>
+                            <span className="text-zinc-500 text-xs ml-auto">{country.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <input
                     type="tel"
                     placeholder="Teléfono"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="flex-1 px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
+                    className="flex-1 px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm h-[46px]"
                   />
                 </div>
               </div>
@@ -212,4 +268,3 @@ export function DemoInbound() {
     </div>
   );
 }
-
