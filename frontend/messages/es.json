@@ -229,7 +229,7 @@
     "email": "Correo Electrónico",
     "emailPlaceholder": "tu@email.com",
     "phone": "Teléfono",
-    "phonePlaceholder": "+52 55...",
+    "phonePlaceholder": "Teléfono",
     "wantCall": "Solicitar llamada de ventas",
     "submitDisclaimer": "Al enviar, aceptas ser contactado por nuestro equipo de ventas.",
     "processingRequest": "Enviando solicitud...",
