@@ -1,17 +1,41 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { useAudioSimulation } from '@/hooks/useAudioSimulation';
-import { PhoneIncoming, Loader2, CheckCircle2, PhoneOff } from 'lucide-react';
+import { PhoneIncoming, Loader2, CheckCircle2, PhoneOff, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
+const COUNTRY_CODES = [
+  { code: '+1', flag: '/flags/us.svg', name: 'USA' },
+  { code: '+57', flag: '/flags/co.svg', name: 'COL' },
+  { code: '+52', flag: '/flags/mx.svg', name: 'MEX' },
+  { code: '+34', flag: '/flags/es.svg', name: 'ESP' },
+  { code: '+54', flag: '/flags/ar.svg', name: 'ARG' },
+  { code: '+56', flag: '/flags/cl.svg', name: 'CHL' },
+  { code: '+51', flag: '/flags/pe.svg', name: 'PER' },
+];
+
 export function DemoOutbound() {
   const t = useTranslations('demoOutbound');
   const { demoState, startCall, endCall, resetDemo } = useAudioSimulation();
   const [formStep, setFormStep] = useState<'form' | 'submitting' | 'calling'>('form');
+  const [countryCode, setCountryCode] = useState('+57');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +93,63 @@ export function DemoOutbound() {
                </div>
                <div>
                   <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('phone')}</label>
-                  <input required type="tel" placeholder={t('phonePlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+                  <div className="flex gap-2 relative">
+                    {/* Custom Country Dropdown */}
+                    <div className="relative" ref={dropdownRef}>
+                      <button
+                        type="button"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="h-[46px] px-3 rounded-lg bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 focus:outline-none focus:border-green-500/50 transition-all text-sm flex items-center gap-2 min-w-[80px] text-zinc-900 dark:text-white"
+                      >
+                        {(() => {
+                          const selected = COUNTRY_CODES.find(c => c.code === countryCode) || COUNTRY_CODES[0];
+                          return (
+                            <>
+                              <div className="relative w-6 h-4 overflow-hidden rounded-sm shadow-sm shrink-0">
+                                  <Image 
+                                      src={selected.flag} 
+                                      alt={selected.name} 
+                                      fill 
+                                      className="object-cover"
+                                  />
+                              </div>
+                              <span>{selected.code}</span>
+                              <ChevronDown className="size-3 opacity-50 ml-auto" />
+                            </>
+                          );
+                        })()}
+                      </button>
+
+                      {isDropdownOpen && (
+                        <div className="absolute top-full left-0 mt-1 w-48 max-h-60 overflow-y-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 py-1">
+                          {COUNTRY_CODES.map((country) => (
+                            <button
+                              key={country.code}
+                              type="button"
+                              onClick={() => {
+                                setCountryCode(country.code);
+                                setIsDropdownOpen(false);
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-3"
+                            >
+                               <div className="relative w-6 h-4 overflow-hidden rounded-sm shadow-sm shrink-0">
+                                  <Image 
+                                      src={country.flag} 
+                                      alt={country.name} 
+                                      fill 
+                                      className="object-cover"
+                                  />
+                              </div>
+                              <span className="font-medium text-zinc-900 dark:text-white">{country.code}</span>
+                              <span className="text-zinc-500 text-xs ml-auto">{country.name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  
+                    <input required type="tel" placeholder={t('phonePlaceholder')} className="flex-1 bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+                  </div>
                </div>
                
                <button type="submit" className="w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-2 mt-2">
