@@ -215,7 +215,10 @@
     "callNow": "Llamar a Ventas",
     "connecting": "Conectando con un asesor...",
     "agent": "Conectado con",
-    "establishingConnection": "Estableciendo conexión prioritaria..."
+    "establishingConnection": "Estableciendo conexión prioritaria...",
+    "namePlaceholder": "Nombre completo",
+    "emailPlaceholder": "Correo electrónico",
+    "phonePlaceholder": "Teléfono"
   },
   "demoOutbound": {
     "requestCompleted": "Solicitud enviada",

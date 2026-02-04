@@ -215,7 +215,10 @@
     "callNow": "Call Sales Team",
     "connecting": "Connecting with an advisor...",
     "agent": "Connected with",
-    "establishingConnection": "Establishing priority connection..."
+    "establishingConnection": "Establishing priority connection...",
+    "namePlaceholder": "Full name",
+    "emailPlaceholder": "Email address",
+    "phonePlaceholder": "Phone"
   },
   "demoOutbound": {
     "requestCompleted": "Request sent",
@@ -229,7 +232,7 @@
     "email": "Email",
     "emailPlaceholder": "you@email.com",
     "phone": "Phone",
-    "phonePlaceholder": "+1 555...",
+    "phonePlaceholder": "Phone",
     "wantCall": "Request Sales Call",
     "submitDisclaimer": "By submitting, you agree to be contacted by our sales team.",
     "processingRequest": "Sending request...",
