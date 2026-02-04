@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.services.voice_service import create_call_session
+from app.services.voice_service import create_call_session, create_sip_call_via_pbx
 from app.core.config import settings
 import uvicorn
 
@@ -38,6 +38,33 @@ async def create_call(request: CreateCallRequest):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+class CreateOutboundCallRequest(BaseModel):
+    name: str | None = None
+    email: str | None = None
+    phone: str
+    agent_id: str | None = None
+
+
+@app.post("/api/v1/call-outbound")
+async def create_outbound_call(request: CreateOutboundCallRequest):
+    try:
+        # Pass name/email as context if needed
+        context = {}
+        if request.name:
+            context["user_name"] = request.name
+        if request.email:
+            context["user_email"] = request.email
+
+        result = await create_sip_call_via_pbx(
+            phone=request.phone,
+            agent_id=request.agent_id,
+            template_context=context if context else None,
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
