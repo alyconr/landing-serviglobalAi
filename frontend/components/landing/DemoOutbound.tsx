@@ -73,9 +73,11 @@ export function DemoOutbound() {
   }
 
   return (
-    <div className="relative h-[500px] w-full bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 overflow-hidden shadow-2xl flex flex-col p-6 transition-colors duration-300">
-       {/* Decorative */}
-       <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="relative h-[500px] w-full bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-2xl flex flex-col p-6 transition-colors duration-300">
+       {/* Decorative Wrapper */}
+       <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl" />
+       </div>
 
        {formStep === 'form' && (
          <div className="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full z-10">
