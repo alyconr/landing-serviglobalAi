@@ -51,3 +51,78 @@ async def create_call_session(
     except Exception as e:
         logger.error(f"Unexpected error creating call: {e}")
         raise
+
+
+def normalize_e164_colombia(phone: str) -> str:
+    """
+    Normalizes a Colombian phone number to E.164 format (digits only, typically starts with 57).
+    """
+    import re
+
+    digits = re.sub(r"\D", "", phone)
+
+    # If 10 digits starting with 3 (e.g. 3001234567), prepend 57
+    if len(digits) == 10 and digits.startswith("3"):
+        return f"57{digits}"
+    # If already has 57 (12 digits), return as is
+    if len(digits) == 12 and digits.startswith("57"):
+        return digits
+
+    # Fallback: return digits (might be fixed line or international not handled)
+    return digits
+
+
+async def create_sip_call_via_pbx(
+    phone: str,
+    agent_id: str | None = None,
+    template_context: dict | None = None,
+) -> dict:
+    """
+    Crea una llamada en Ultravox que marque por SIP hacia tu Asterisk,
+    y Asterisk luego enruta a PSTN por ialab-out.
+    """
+    final_agent_id = agent_id or settings.DEFAULT_AGENT_ID
+    if not final_agent_id:
+        raise ValueError("Agent ID requerido (DEFAULT_AGENT_ID o parámetro).")
+
+    headers = {
+        "X-API-Key": settings.ULTRAVOX_API_KEY,
+        "Content-Type": "application/json",
+    }
+
+    number = normalize_e164_colombia(phone)
+
+    # IMPORTANTE:
+    # Decide si tu dialplan matchea con + o sin +.
+    # Yo recomiendo mandar con +, y en Asterisk soportar ambos.
+    dialed = f"+{number}"
+
+    # Tu Asterisk público (IP o dominio).
+    pbx_uri = f"sip:{dialed}@{settings.ASTERISK_PUBLIC_HOST}:5060"
+
+    payload = {
+        "medium": {
+            "sip": {
+                "outgoing": {
+                    "to": pbx_uri,
+                    "username": settings.UVX_SIP_USERNAME,
+                    "password": settings.UVX_SIP_PASSWORD,
+                }
+            }
+        },
+        # Add template context if provided
+    }
+
+    if template_context:
+        payload["templateContext"] = template_context
+
+    url = f"https://api.ultravox.ai/api/agents/{final_agent_id}/calls"
+
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.post(url, json=payload, headers=headers, timeout=20.0)
+            r.raise_for_status()
+            return r.json()  # normalmente te devuelve callId/estado
+    except httpx.HTTPStatusError as e:
+        logger.error("Ultravox API error: %s | payload=%s", e.response.text, payload)
+        raise
