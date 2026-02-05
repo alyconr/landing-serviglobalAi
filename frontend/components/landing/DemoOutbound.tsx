@@ -17,12 +17,19 @@ const COUNTRY_CODES = [
   { code: '+51', flag: '/flags/pe.svg', name: 'PER' },
 ];
 
+
 export function DemoOutbound() {
   const t = useTranslations('demoOutbound');
   const { demoState, startCall, endCall, resetDemo } = useAudioSimulation();
   const [formStep, setFormStep] = useState<'form' | 'submitting' | 'calling'>('form');
   const [countryCode, setCountryCode] = useState('+57');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  // Form State
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,13 +44,40 @@ export function DemoOutbound() {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStep('submitting');
-    setTimeout(() => {
-      setFormStep('calling');
-      startCall();
-    }, 1500);
+    
+    try {
+        const fullPhone = `${countryCode}${phone}`;
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        
+        console.log("Submitting to:", `${API_URL}/api/v1/call-outbound`);
+        console.log("Payload:", { name, email, phone: fullPhone });
+
+        const response = await fetch(`${API_URL}/api/v1/call-outbound`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, phone: fullPhone })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server error: ${response.status} ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log("Success:", data);
+
+        // Transition to calling state
+        setFormStep('calling');
+        startCall();
+        
+    } catch (error) {
+        console.error("Error initiating call:", error);
+        alert('Error initiating call. Check console for details.');
+        setFormStep('form');
+    }
   };
 
   const handleEndCall = () => {
@@ -56,12 +90,12 @@ export function DemoOutbound() {
           <CheckCircle2 className="size-16 text-green-500 mb-4" />
           <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">{t('requestCompleted')}</h3>
           <p className="text-zinc-600 dark:text-zinc-400 mb-6 max-w-sm">{t('requestCompletedDesc')}</p>
-          <Link 
-            href="#agendar" 
+          <button 
+            onClick={() => { resetDemo(); setFormStep('form'); setName(''); setEmail(''); setPhone(''); }} // Reset form as well
             className="w-full max-w-xs py-3 bg-zinc-900 dark:bg-white text-white dark:text-black font-bold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors text-center"
           >
-            {t('scheduleConsultation')}
-          </Link>
+             {t('scheduleConsultation')}
+          </button>
           <button 
              onClick={() => { resetDemo(); setFormStep('form'); }}
              className="mt-4 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white underline"
@@ -87,11 +121,25 @@ export function DemoOutbound() {
             <form onSubmit={handleSubmit} className="space-y-4">
                <div>
                   <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('name')}</label>
-                  <input required type="text" placeholder={t('namePlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+                  <input 
+                    required 
+                    type="text" 
+                    placeholder={t('namePlaceholder')} 
+                    className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                </div>
                <div>
                   <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('email')}</label>
-                  <input required type="email" placeholder={t('emailPlaceholder')} className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+                  <input 
+                    required 
+                    type="email" 
+                    placeholder={t('emailPlaceholder')} 
+                    className="w-full bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                </div>
                <div>
                   <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">{t('phone')}</label>
@@ -150,11 +198,18 @@ export function DemoOutbound() {
                       )}
                     </div>
                   
-                    <input required type="tel" placeholder={t('phonePlaceholder')} className="flex-1 bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors" />
+                    <input 
+                        required 
+                        type="tel" 
+                        placeholder={t('phonePlaceholder')} 
+                        className="flex-1 bg-zinc-100 dark:bg-black/50 border border-zinc-200 dark:border-white/10 rounded-lg p-3 text-zinc-900 dark:text-white focus:outline-none focus:border-green-500/50 transition-colors"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
                   </div>
                </div>
                
-               <button type="submit" className="w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-2 mt-2">
+               <button type="submit" disabled={formStep === 'submitting'} className="w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-green-900/20 flex items-center justify-center gap-2 mt-2 disabled:opacity-50">
                  <PhoneIncoming className="size-5" />
                  {t('wantCall')}
                </button>

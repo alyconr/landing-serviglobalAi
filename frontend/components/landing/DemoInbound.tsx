@@ -101,7 +101,13 @@ export function DemoInbound() {
   }
 
   return (
-    <div className="relative h-[500px] w-full bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-white/10 overflow-hidden shadow-2xl flex flex-col transition-colors duration-300">
+    <div className="relative h-[500px] w-full bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-2xl flex flex-col transition-colors duration-300">
+      {/* Background Wrapper to clip decorative elements without clipping dropdowns */}
+      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+          {/* Background Gradients */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-violet-500/5" />
+      </div>
+
       {/* status bar */}
       <div className="absolute top-4 left-0 right-0 py-2 px-4 flex justify-between items-center text-xs text-zinc-500 dark:text-white/30 z-10">
         <span>{t('simulatorVersion')}</span>
@@ -111,9 +117,7 @@ export function DemoInbound() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center relative p-6">
-        {/* Background Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-violet-500/5 pointer-events-none" />
+      <div className="flex-1 flex flex-col items-center justify-center relative p-6 z-10">
 
         {demoState === 'idle' && (
           <div className="w-full max-w-sm flex flex-col gap-6 z-10 px-4">
@@ -126,14 +130,14 @@ export function DemoInbound() {
               <div className="space-y-2">
                 <input
                   type="text"
-                  placeholder="Nombre completo"
+                  placeholder={t('namePlaceholder')}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
                 />
                 <input
                   type="email"
-                  placeholder="Correo electrónico"
+                  placeholder={t('emailPlaceholder')}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm"
@@ -195,7 +199,7 @@ export function DemoInbound() {
 
                   <input
                     type="tel"
-                    placeholder="Teléfono"
+                    placeholder={t('phonePlaceholder')}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="flex-1 px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-sm h-[46px]"

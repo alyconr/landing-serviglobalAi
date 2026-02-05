@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Globe, Menu, X } from 'lucide-react';
+import { Globe, Menu, X, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations, useLocale } from 'next-intl';
 import { ThemeToggle } from '../ui/ThemeToggle';
@@ -49,11 +49,14 @@ export function Header() {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href={`/${locale}`} className="flex items-center gap-2 group">
-          <div className="size-8 rounded-full bg-gradient-to-tr from-blue-500 to-violet-500 flex items-center justify-center overflow-hidden">
-            <Globe className="size-4 text-white animate-spin-slow" />
+          <div className="relative size-9 rounded-full bg-gradient-to-tr from-blue-500 to-violet-500 flex items-center justify-center overflow-hidden shadow-lg shadow-violet-500/20 group-hover:shadow-violet-500/40 transition-all">
+             <Globe className="absolute size-5 text-white/40 animate-spin-slow" strokeWidth={1.5} />
+             <Phone className="absolute size-4 text-white fill-white/20 z-10" strokeWidth={2.5} />
           </div>
-          <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white transition-colors group-hover:text-violet-600 dark:group-hover:text-violet-300">
-            ServiGlobal<span className="text-violet-600 dark:text-violet-500">AI</span>
+          <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white transition-colors flex items-center gap-1.5">
+            ServiGlobal
+            <span className="flex items-center justify-center size-2 rounded-[1px] bg-violet-600 dark:bg-violet-500 animate-pulse" />
+            <span className="text-violet-600 dark:text-violet-500">IA</span>
           </span>
         </Link>
 
