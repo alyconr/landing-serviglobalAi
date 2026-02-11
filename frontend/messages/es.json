@@ -238,7 +238,14 @@
     "processingRequest": "Enviando solicitud...",
     "simulatingCall": "Solicitud Recibida",
     "agentDialing": "Tu solicitud ha sido asignada a un asesor de ventas.",
-    "hangUp": "Finalizar"
+    "hangUp": "Finalizar",
+    "callScheduled": "¡Llamada Agendada!",
+    "callScheduledDesc": "Te llamaremos el",
+    "scheduleAnother": "Agendar otra",
+    "callNow": "Llamar Ahora",
+    "scheduleLater": "Agendar para después",
+    "preferredTime": "Hora preferida",
+    "scheduleCall": "Agendar Llamada"
   },
   "floatingCta": {
     "scheduleButton": "Agendar Ahora",
