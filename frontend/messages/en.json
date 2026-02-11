@@ -238,7 +238,14 @@
     "processingRequest": "Sending request...",
     "simulatingCall": "Request Received",
     "agentDialing": "Your request has been assigned to a sales advisor.",
-    "hangUp": "End"
+    "hangUp": "End",
+    "callScheduled": "Call Scheduled!",
+    "callScheduledDesc": "We will call you at",
+    "scheduleAnother": "Schedule another",
+    "callNow": "Call Now",
+    "scheduleLater": "Schedule for later",
+    "preferredTime": "Preferred Time",
+    "scheduleCall": "Schedule Call"
   },
   "floatingCta": {
     "scheduleButton": "Schedule Now",
