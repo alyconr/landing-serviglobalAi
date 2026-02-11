@@ -39,6 +39,7 @@ export function UseCases() {
               const Icon = VERTICAL_ICONS[id];
               return (
                 <button
+                  suppressHydrationWarning
                   key={id}
                   onClick={() => setActiveId(id)}
                   className={cn(
