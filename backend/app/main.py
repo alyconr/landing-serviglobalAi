@@ -40,11 +40,13 @@ def health_check():
     return {"status": "ok"}
 
 
+
 class CreateOutboundCallRequest(BaseModel):
     name: str | None = None
     email: str | None = None
     phone: str
     agent_id: str | None = None
+    schedule_time: str | None = None  # ISO 8601 string
 
 
 @app.post("/api/v1/call-outbound")
@@ -57,11 +59,20 @@ async def create_outbound_call(request: CreateOutboundCallRequest):
         if request.email:
             context["user_email"] = request.email
 
-        result = await create_sip_call_via_pbx(
-            phone=request.phone,
-            agent_id=request.agent_id,
-            template_context=context if context else None,
-        )
+        if request.schedule_time:
+            from app.services.voice_service import create_scheduled_sip_call_via_pbx
+            result = await create_scheduled_sip_call_via_pbx(
+                phone=request.phone,
+                schedule_time=request.schedule_time,
+                agent_id=request.agent_id,
+                template_context=context if context else None,
+            )
+        else:
+            result = await create_sip_call_via_pbx(
+                phone=request.phone,
+                agent_id=request.agent_id,
+                template_context=context if context else None,
+            )
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
