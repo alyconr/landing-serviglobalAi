@@ -76,6 +76,9 @@ async def create_sip_call_via_pbx(
     phone: str,
     agent_id: str | None = None,
     template_context: dict | None = None,
+    system_prompt: str | None = None,
+    model: str | None = None,
+    voice: str | None = None,
 ) -> dict:
     """
     Crea una llamada en Ultravox que marque por SIP hacia tu Asterisk,
@@ -110,11 +113,17 @@ async def create_sip_call_via_pbx(
                 }
             }
         },
-        # Add template context if provided
+        "firstSpeakerSettings": {"agent": {}},  # Force agent to speak first
     }
 
     if template_context:
         payload["templateContext"] = template_context
+    if system_prompt:
+        payload["systemPrompt"] = system_prompt
+    if model:
+        payload["model"] = model
+    if voice:
+        payload["voice"] = voice
 
     url = f"https://api.ultravox.ai/api/agents/{final_agent_id}/calls"
 
@@ -125,4 +134,85 @@ async def create_sip_call_via_pbx(
             return r.json()  # normalmente te devuelve callId/estado
     except httpx.HTTPStatusError as e:
         logger.error("Ultravox API error: %s | payload=%s", e.response.text, payload)
+        raise
+
+
+async def create_scheduled_sip_call_via_pbx(
+    phone: str,
+    schedule_time: str,
+    agent_id: str | None = None,
+    template_context: dict | None = None,
+    system_prompt: str | None = None,
+    model: str | None = None,
+    voice: str | None = None,
+) -> dict:
+    """
+    Creates a scheduled call batch in Ultravox.
+    schedule_time: ISO 8601 string (e.g., "2023-11-07T05:31:56Z")
+    """
+    final_agent_id = agent_id or settings.DEFAULT_AGENT_ID
+    if not final_agent_id:
+        raise ValueError("Agent ID required (DEFAULT_AGENT_ID or parameter).")
+
+    headers = {
+        "X-API-Key": settings.ULTRAVOX_API_KEY,
+        "Content-Type": "application/json",
+    }
+
+    # Normalize phone and construct SIP URI (reused from existing logic)
+    number = normalize_e164_colombia(phone)
+    dialed = f"+{number}"
+    pbx_uri = f"sip:{dialed}@{settings.ASTERISK_PUBLIC_HOST}:5060"
+
+    # Define the call object (same structure as immediate call's medium)
+    call_config = {
+        "medium": {
+            "sip": {
+                "outgoing": {
+                    "to": pbx_uri,
+                    "username": settings.UVX_SIP_USERNAME,
+                    "password": settings.UVX_SIP_PASSWORD,
+                }
+            }
+        },
+        "firstSpeakerSettings": {"agent": {}},
+    }
+
+    if template_context:
+        call_config["templateContext"] = template_context
+    if system_prompt:
+        call_config["systemPrompt"] = system_prompt
+    if model:
+        call_config["model"] = model
+    if voice:
+        call_config["voice"] = voice
+
+    # Calculate windowEnd (e.g., start time + 1 hour)
+    from datetime import datetime, timedelta
+
+    try:
+        dt_start = datetime.fromisoformat(schedule_time.replace("Z", "+00:00"))
+        dt_end = dt_start + timedelta(hours=1)
+        window_end = dt_end.isoformat()
+    except ValueError:
+        # Fallback if parsing fails (though frontend sends ISO)
+        window_end = schedule_time
+
+    payload = {
+        "windowStart": schedule_time,
+        "windowEnd": window_end,
+        "calls": [call_config],
+    }
+
+    url = f"https://api.ultravox.ai/api/agents/{final_agent_id}/scheduled_batches"
+
+    try:
+        async with httpx.AsyncClient() as client:
+            r = await client.post(url, json=payload, headers=headers, timeout=20.0)
+            r.raise_for_status()
+            return r.json()
+    except httpx.HTTPStatusError as e:
+        logger.error(
+            "Ultravox API Batch error: %s | payload=%s", e.response.text, payload
+        )
         raise
